@@ -1,0 +1,37 @@
+{
+  "name": "tradescharge",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "vercel-build": "npm run install:all && npm run build",
+    "deploy:vercel": "npx vercel --prod",
+    "dev": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/dev-auto.ps1",
+    "dev:once": "concurrently \"cross-env PORT=8000 FRONTEND_URL=http://127.0.0.1:5173 KITE_REDIRECT_URL=http://127.0.0.1:5173/auth/kite/callback COOKIE_SECURE=false npm run dev --prefix backend\" \"cross-env VITE_API_PORT=8000 VITE_DEV_PORT=5173 npm run dev --prefix frontend\"",
+    "dev:auto": "npm run dev",
+    "local": "npm run build && cross-env PORT=8000 FRONTEND_URL=http://127.0.0.1:8000 KITE_REDIRECT_URL=http://127.0.0.1:8000/auth/kite/callback SERVE_FRONTEND=true COOKIE_SECURE=false npm run dev --prefix backend",
+    "dev:trade": "concurrently \"cross-env ENABLE_TRADING=true PORT=8001 FRONTEND_URL=http://127.0.0.1:5174 npm run dev --prefix backend\" \"cross-env VITE_ENABLE_TRADING=true VITE_API_PORT=8001 VITE_DEV_PORT=5174 npm run dev --prefix frontend\"",
+    "dev:view": "npm run dev",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "test": "npm run test --prefix backend",
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "start": "npm run start --prefix backend",
+    "tunnel": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-tunnel.ps1",
+    "tunnel:named": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-named-tunnel.ps1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "kiteconnect": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "concurrently": "^9.1.0",
+    "cross-env": "^7.0.3",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "tradescharge-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "tsx src/index.ts",
+    "kite-audit:capture": "tsx src/scripts/captureKiteAudit.ts",
+    "ledger:contract-note": "tsx src/scripts/ledgerContractNote.ts",
+    "test": "tsx src/services/charges.test.ts && tsx src/services/orderValidation.test.ts && tsx src/mock/orderBook.test.ts && tsx src/services/instrumentSymbol.test.ts && tsx src/services/executedTransactions.test.ts && tsx src/services/liveClosedPositions.test.ts && tsx src/services/liveKiteSync.test.ts && tsx src/services/livePositionGross.test.ts && tsx src/services/impliedVol.test.ts && tsx src/services/kiteAuditLog.test.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "kiteconnect": "^5.0.1",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}

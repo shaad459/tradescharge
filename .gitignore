@@ -1,0 +1,16 @@
+.env
+.env.local
+.env.*.local
+backend/data/
+backend/data/.session-secret
+backend/data/kite-sessions.enc.json
+backend/data/kite-session.json
+node_modules/
+dist/
+build/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+*.tsbuildinfo
+frontend/tsconfig.tsbuildinfo

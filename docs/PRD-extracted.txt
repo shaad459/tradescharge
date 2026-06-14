@@ -1,0 +1,100 @@
+TRADESCHARGE PRD
+Business Case
+A trader can save their capital from transaction costs. During live trading, a trader may not realize the transaction cost for each trade live, this affects the judgement in placing Sls, take profit and aiming to simply breakeven. Tradescharge aims to minimize the cost by providing complete transparency each and every live trade in real time. 
+Who is this for?
+The target audience for this MVP will be Zerodha’s active F&O users which is roughly 2.5 million users.
+Whats the logic
+The logic is based on the transaction calculation in Zerodha. 
+Futures & Options (F&O) Charge Breakdown
+Charge Type
+F&O - Futures
+F&O - Options
+Brokerage
+0.03% or ₹20/executed order (whichever is lower)
+Flat ₹20 per executed order
+STT / CTT
+0.05% on the sell side
+• 0.15% of the intrinsic value on options that are bought and exercised
+
+• 0.15% on the sell side (on premium)
+Transaction Charges
+• NSE: 0.00183%
+
+• BSE: 0%
+• NSE: 0.03553% (on premium)
+
+• BSE: 0.0325% (on premium)
+GST
+18% on (brokerage + SEBI charges + transaction charges)
+18% on (brokerage + SEBI charges + transaction charges)
+SEBI Charges
+₹10 / crore
+₹10 / crore
+Stamp Charges
+0.002% or ₹200 / crore on the buy side
+0.003% or ₹300 / crore on the buy side
+The contract note for reference is 
+[ START: EXECUTED TRADES ]
+                                   │
+                                   ▼
+                   ┌───────────────┴───────────────┐
+                   │   Total Premium Turnover      │ [cite: 25]
+                   │        ₹17,46,322.50          │
+                   └───────────────┬───────────────┘
+                                   │
+         ┌─────────────────────────┼─────────────────────────┐
+         ▼                         ▼                         ▼
+  [ Total Orders ]         [ Buy Side Only ]         [ Sell Side Only ]
+     14 Orders [cite: 57, 58]       ₹8,62,878.50 [cite: 25]      ₹8,83,444.00 [cite: 25]
+         │                         │                         │
+         ▼                         ▼                         ▼
+   ┌───────────┐             ┌───────────┐             ┌───────────┐
+   │ BROKERAGE │             │STAMP DUTY │             │    STT    │
+   │  ₹280.00  │   │  ₹26.00   │   │ ₹1,325.00 │ 
+   └─────┬─────┘             └───────────┘             └───────────┘
+         │ (Flat ₹20/order)    (0.003% of Buy)           (0.15% of Sell) [cite: 25]
+         │
+         ├─────────────────────────────────────┐
+         ▼                                     ▼
+┌──────────────────┐                 ┌──────────────────┐
+│ EXCHANGE CHARGES │                 │SEBI TURNOVER FEES│
+│     ₹620.47      │       │      ₹1.75       │ 
+└────────┬─────────┘                 └─────────┬────────┘
+         │ (0.03553% of Turnover)              │ (₹10 / Crore of Turnover)
+         │                                     │
+         └─────────────────┬───────────────────┘
+                           │
+                           ▼ (Sum of Brokerage + Exchange + SEBI)
+                   ┌───────────────┐
+                   │ Taxable Value │
+                   │    ₹902.22    │
+                   └───────┬───────┘
+                           │
+                           ▼ (18% IGST on Taxable Value) 
+                   ┌───────────────┐
+                   │   GST (IGST)  │
+                   │    ₹162.40    │ 
+                   └───────┬───────┘
+                           │
+                           ▼
+ ┌───────────────────────────────────────────────────────────┐
+ │                     [ TOTAL CHARGES ]                     │
+ │ Brokerage + STT + Exchange + SEBI + GST + Stamp Duty      │
+ │                         ₹2,415.61                         │
+ └─────────────────────────┬─────────────────────────────────┘
+                           │
+                           ▼
+  ┌─────────────────────────────────────────────────────────┐
+  │ Net Receivable Amount = Gross Profit - Total Charges    │
+  │          ₹20,845.50 - ₹2,415.61 = ₹18,429.89            │ 
+  └─────────────────────────────────────────────────────────┘
+The actual logic needs to be as below:
+Tradescharge fetches User Balance from Zerodha via kite API
+If an order is executed, it appears in tradescharge.
+The UI should show the buy price, LTP, lot size, SL, target and display the P&L which is shown in kie along with the real time transaction cost.
+For eg- A Nifty 50 Call option bought at 100rs will also be sold, tradescharge needs to calculate real time transaction cost based on buy price and the LTP.
+If a user sells the call at 110 rs , show the transaction cost paid and P&L after that cost.
+If a user takes another Nifty call at 120 , calculate the SL including charges and profit to ensure the capital is protected along with a target where a user can reach breakeven since the transaction is increasing the traded value which result in more charges.
+Suggest the number of lots and the points required to reach breakeven like ’20 points required to breakeven with 4 lots. Give option to select the number of lots and the points will change dynamically including charges.
+Display the capital balance on top of the screen which should increase or decrease depending on the positions. 
+What the UI workflow will look like?

@@ -1,0 +1,37 @@
+# Render Blueprint — https://dashboard.render.com/blueprint
+# After deploy: add Kite redirect URL (see docs/RENDER.md)
+
+services:
+  - type: web
+    name: tradescharge
+    runtime: docker
+    # free = sleeps when idle; starter (~$7/mo) = always on
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SERVE_FRONTEND
+        value: "true"
+      - key: PORT
+        value: "8000"
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: KITE_DEBUG_ROUTES
+        value: "0"
+      - key: KITE_AUDIT_LOG
+        value: "0"
+      # Required — set in Render dashboard when deploying:
+      - key: KITE_API_KEY
+        sync: false
+      - key: KITE_API_SECRET
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      # Optional — Render sets RENDER_EXTERNAL_URL; app auto-uses it for OAuth
+      - key: FRONTEND_URL
+        sync: false
+      - key: KITE_REDIRECT_URL
+        sync: false
+      - key: ANALYTICS_ADMIN_KEY
+        sync: false
