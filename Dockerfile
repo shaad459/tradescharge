@@ -1,9 +1,9 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 
-COPY package.json ./
-COPY backend/package.json ./backend/
-COPY frontend/package.json ./frontend/
+COPY package.json package-lock.json ./
+COPY backend/package.json backend/package-lock.json ./backend/
+COPY frontend/package.json frontend/package-lock.json ./frontend/
 
 RUN npm run install:all
 
@@ -18,11 +18,11 @@ ENV NODE_ENV=production
 ENV SERVE_FRONTEND=true
 ENV PORT=8000
 
-COPY package.json ./
-COPY backend/package.json ./backend/
+COPY package.json package-lock.json ./
+COPY backend/package.json backend/package-lock.json ./backend/
 COPY backend/src ./backend/src
 COPY backend/tsconfig.json ./backend/tsconfig.json
-COPY frontend/dist ./frontend/dist
+COPY --from=build /app/frontend/dist ./frontend/dist
 
 RUN npm install --prefix backend --omit=dev
 
